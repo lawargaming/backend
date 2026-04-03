@@ -8,13 +8,13 @@ const wrap = (fn) => (req, res, next) => {
   Promise.resolve(fn.call(permissionController, req, res, next)).catch(next);
 };
 
-router.get("/", wrap(permissionController.getAllPermissions)); // Alias getAll
+// GET flat list — PUBLIC (tanpa auth, dipakai saat Owner setup)
+router.get("/", wrap(permissionController.getAll));
+
+// GET grouped list — PROTECTED (butuh Pengguna token)
 router.get("/grouped", authPengguna, wrap(permissionController.getGrouped));
 
 router.post("/", wrap(permissionController.create));
 router.delete("/:id", wrap(permissionController.delete));
-
-// Redirect method names to match controller
-router.get("/", wrap(permissionController.getAll));
 
 module.exports = router;

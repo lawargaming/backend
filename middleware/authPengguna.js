@@ -55,9 +55,6 @@ module.exports = async (req, res, next) => {
     req.pengguna = pengguna;
     req.userDecoded = decoded; // opsional, tapi berguna untuk audit/log
 
-    console.log("ROLE:", pengguna.roleID.namaRole);
-    console.log("PERMISSIONS:", pengguna.permissions);
-
     next();
   } catch (err) {
     next(err);

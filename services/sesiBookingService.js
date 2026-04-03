@@ -505,7 +505,7 @@ class SesiBookingService {
     let totalSetelahDiskonItem = hargaKotor - jumlahDiskonItem;
     if (totalSetelahDiskonItem < 0) totalSetelahDiskonItem = 0;
 
-    const pajakCalc = await pajakService.simulasiHitung(
+    const pajakCalc = await pajakService.hitungPajakProduk(
       payload.dataAset,
       totalSetelahDiskonItem,
       tenantID
@@ -732,7 +732,7 @@ class SesiBookingService {
       let totalSetelahDiskonItem = hargaKotor - jumlahDiskonItem;
       if (totalSetelahDiskonItem < 0) totalSetelahDiskonItem = 0;
 
-      const pajakCalc = await pajakService.simulasiHitung(
+      const pajakCalc = await pajakService.hitungPajakProduk(
         asetToUse,
         totalSetelahDiskonItem,
         requesterTenantID
@@ -920,7 +920,7 @@ class SesiBookingService {
         let totalSetelahDiskonItem = hargaKotor - jumlahDiskonItem;
         if (totalSetelahDiskonItem < 0) totalSetelahDiskonItem = 0;
 
-        const pajakCalc = await pajakService.simulasiHitung(
+        const pajakCalc = await pajakService.hitungPajakProduk(
           item.dataAset,
           totalSetelahDiskonItem,
           tenantID

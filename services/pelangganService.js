@@ -24,8 +24,8 @@ class PelangganService {
     if (cached) return JSON.parse(cached);
 
     const pelanggan = await Pelanggan.find({
-        tenantID
-      })
+      tenantID
+    })
       .sort({
         namaPelanggan: 1
       })
@@ -64,6 +64,10 @@ class PelangganService {
     if (!validation.valid) return {
       error: validation.errors
     };
+
+    // Sanitize payload from null IDs sent by Flutter
+    if (!payload._id) delete payload._id;
+    if (!payload.id) delete payload.id;
 
     try {
       const pelanggan = await Pelanggan.create(payload);

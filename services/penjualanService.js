@@ -288,7 +288,7 @@ class PenjualanService {
     const pajakDocs = await Pajak.find({
       _id: { $in: pajakIds },
       tenantID,
-      tipePajak: "Per Transaksi",
+      tipePajak: false,
       statusPajak: true,
     }).lean();
 
@@ -351,7 +351,7 @@ class PenjualanService {
   async _getActivePajakTransaksi(tenantID) {
     const pajakTransaksi = await Pajak.find({
       tenantID,
-      tipePajak: "Per Transaksi",
+      tipePajak: false,
       statusPajak: true,
     })
       .select(
@@ -432,7 +432,7 @@ class PenjualanService {
           item.total = 0;
         }
 
-        const pajakCalc = await pajakService.simulasiHitung(
+        const pajakCalc = await pajakService.hitungPajakProduk(
           item.produkID,
           item.total,
           tenantID
