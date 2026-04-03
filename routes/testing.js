@@ -173,10 +173,6 @@ router.get("/sync-error", (req, res, next) => {
 
   // Ini akan di-catch oleh Express dan diteruskan ke errorHandler
   throw new Error("Test sync error! Ini adalah synchronous throw untuk testing Sentry.");
-
-  // Baris ini tidak akan pernah dieksekusi
-  logExit(req.requestId, "TEST-1 Sync Error", start); // eslint-disable-line no-unreachable
-  void(next); // eslint-disable-line no-unused-expressions
 });
 
 // ============================================================
@@ -214,8 +210,6 @@ router.get("/async-error", asyncHandler(async (req, res) => {
 
   // Error di async function – diteruskan ke next() oleh asyncHandler
   throw new Error("Test async error! Ini adalah async Promise rejection untuk testing Sentry.");
-
-  logExit(req.requestId, "TEST-2 Async Error", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -310,8 +304,6 @@ router.get("/validation-error", asyncHandler(async (req, res) => {
       errors: ["Format email tidak valid", "Email harus mengandung @"],
     }
   );
-
-  logExit(req.requestId, "TEST-4 ValidationError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -348,8 +340,6 @@ router.get("/auth-error", asyncHandler(async (req, res) => {
     "Token JWT tidak ditemukan atau sudah kadaluarsa (simulasi testing)",
     { headerPresent: false, endpoint: req.path }
   );
-
-  logExit(req.requestId, "TEST-5 AuthenticationError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -401,8 +391,6 @@ router.get("/authz-error", asyncHandler(async (req, res) => {
       requiredPermission: "admin:read",
     }
   );
-
-  logExit(req.requestId, "TEST-6 AuthorizationError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -449,8 +437,6 @@ router.get("/not-found-error", asyncHandler(async (req, res) => {
     `Produk dengan ID '${resourceId}' tidak ditemukan (simulasi testing)`,
     { id: resourceId, collection: "produk" }
   );
-
-  logExit(req.requestId, "TEST-7 NotFoundError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -487,8 +473,6 @@ router.get("/conflict-error", asyncHandler(async (req, res) => {
     `Email '${email}' sudah terdaftar di sistem (simulasi testing)`,
     { field: "email", value: email, existingUserId: existingUser.id }
   );
-
-  logExit(req.requestId, "TEST-8 ConflictError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -540,8 +524,6 @@ router.get("/database-error", asyncHandler(async (req, res) => {
     { severity: "high" },
     originalDbErr
   );
-
-  logExit(req.requestId, "TEST-9 DatabaseError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -606,8 +588,6 @@ router.get("/external-service-error", asyncHandler(async (req, res) => {
     { criticalPath: true },
     originalHttpErr
   );
-
-  logExit(req.requestId, "TEST-10 ExternalServiceError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -642,8 +622,6 @@ router.get("/timeout-error", asyncHandler(async (req, res) => {
     `Operasi 'generateLaporanBulanan' melebihi batas ${TIMEOUT_MS}ms (simulasi testing)`,
     { operation: "generateLaporanBulanan", timeoutMs: TIMEOUT_MS }
   );
-
-  logExit(req.requestId, "TEST-11 TimeoutError", start); // eslint-disable-line no-unreachable
 }));
 
 // ============================================================
@@ -796,9 +774,14 @@ router.get("/performance-slow", asyncHandler(async (req, res) => {
   logEntry(req, "TEST-14 Slow Endpoint (Performance Monitoring)");
   const log = logger.withReqId(req.requestId);
 
+  // Batas delay yang diizinkan
+  const MIN_DELAY_MS = 0;
+  const MAX_DELAY_MS = 10000;
+  const DEFAULT_DELAY_MS = 2000;
+
   // Baca delay dari query param, default 2000ms, max 10000ms
   const rawDelay = parseInt(req.query.delay, 10);
-  const delay = isNaN(rawDelay) ? 2000 : Math.min(Math.max(rawDelay, 0), 10000);
+  const delay = isNaN(rawDelay) ? DEFAULT_DELAY_MS : Math.min(Math.max(rawDelay, MIN_DELAY_MS), MAX_DELAY_MS);
 
   log.info(`Delay yang diminta: ${delay}ms (query ?delay=${req.query.delay || "default"})`);
   log.debug(`Delay aktual setelah sanitasi: ${delay}ms`);

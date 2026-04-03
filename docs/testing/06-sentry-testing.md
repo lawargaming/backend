@@ -29,7 +29,7 @@ performance melalui Sentry.
 
 **Environment variables yang relevan:**
 ```env
-SENTRY_DSN=https://xxxxx@oyyy.ingest.sentry.io/zzz
+SENTRY_DSN=https://<public-key>@o<org-id>.ingest.sentry.io/<project-id>
 NODE_ENV=development
 PORT=4000
 ```
