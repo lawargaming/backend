@@ -255,10 +255,10 @@ const corsOptions = {
  */
 const rateLimiter = rateLimit({
   // Window time dalam milidetik
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000,
 
   // Maksimal request per window per IP
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 100,
 
   // Pesan error yang dikirim ke client
   message: {
@@ -295,8 +295,8 @@ const rateLimiter = rateLimit({
  * Default: 10 request per 15 menit per IP
  */
 const strictRateLimiter = rateLimit({
-  windowMs: parseInt(process.env.AUTH_RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000,
-  max: parseInt(process.env.AUTH_RATE_LIMIT_MAX_REQUESTS) || 10,
+  windowMs: parseInt(process.env.AUTH_RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000,
+  max: parseInt(process.env.AUTH_RATE_LIMIT_MAX_REQUESTS, 10) || 10,
   message: {
     success: false,
     errorCode: "RATE_LIMIT_ERROR",

@@ -13,7 +13,7 @@
  *   const { setupSentryErrorHandler } = require('./config/sentry');
  *   setupSentryErrorHandler(app); // pasang setelah semua route
  *
- * SENTRY SDK VERSION: @sentry/node v8+ (API baru, tanpa @sentry/tracing terpisah)
+ * SENTRY SDK VERSION: @sentry/node v10 (SDK v8+ API - @sentry/tracing no longer separate)
  */
 
 const Sentry = require("@sentry/node");
