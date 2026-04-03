@@ -301,10 +301,9 @@ function initSentry() {
     // Berguna untuk message events yang biasanya tidak punya stack trace
     attachStacktrace: true,
 
-    // sendDefaultPii: JANGAN set true di production!
-    // true = Sentry akan otomatis capture IP, cookies, dll.
-    // Kita handle sendiri via setUser() untuk kontrol lebih baik
-    sendDefaultPii: false,
+    // sendDefaultPii: true = Sentry otomatis capture IP address pada setiap event.
+    // Sesuai konfigurasi Sentry project ini.
+    sendDefaultPii: true,
 
     // ----------------------------------------------------------
     // DEBUGGING (matikan di production)
